@@ -33,7 +33,7 @@ export default function Card({ product }) {
 
     return (
         <>
-            <div className="bg-gray-400 p-2 w-48 h-auto rounded-2xl flex flex-col hover:scale-110 hover:-translate-y-2 transition duration-300">
+            <div className="bg-gray-700 p-2 w-64 h-auto rounded-2xl flex flex-col  hover:shadow-lg hover:shadow-white hover:-translate-y-2 transition duration-300">
 
                 <img
                     src={product.images?.[0]?.url}
@@ -41,15 +41,15 @@ export default function Card({ product }) {
                     className="w-full h-40 object-cover rounded-xl mb-2"
                 />
 
-                <h1 className="font-bold">
+                <h1 className="font-bold text-white">
                     {product.name}
                 </h1>
 
-                <p className="mb-2">
+                <p className="mb-2 text-gray-400">
                     {product.description}
                 </p>
 
-                <p className="mb-2">
+                <p className="mb-2 text-white">
                     Rs.{product.price}
                 </p>
 

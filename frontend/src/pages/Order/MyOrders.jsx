@@ -154,7 +154,7 @@ export default function MyOrders() {
 
                     <div
                         key={order._id}
-                        className="bg-white rounded-xl shadow-md p-6"
+                        className="bg-gray-300 rounded-xl shadow-md p-6"
                     >
 
                         {/* TOP SECTION */}

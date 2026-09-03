@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Nav from "../../components/layout/Nav";
 import Shop from "../Shop/Shop"
+import CategoryCard from "../../components/layout/CategoryCard";
 
 export default function Home(){
     return(<>
@@ -10,12 +11,12 @@ export default function Home(){
                 <h1 className="mb-12 font-semibold text-white text-5xl font-serif">An Ultimate E-Commerce !</h1>
 
                 <Link to="/shop">
-                    <button className="bg-gray-500 rounded-2xl px-4 py-2 cursor-pointer hover:scale-110 transition duration-300 active:scale-95"> Shop Now</button>
+                    <button className="bg-gray-500 rounded-2xl px-4 py-2 cursor-pointer hover:scale-105 hover:shadow-md hover:shadow-white transition duration-300 active:scale-95"> Shop Now</button>
                 </Link>
 
             </div>
-            <div>
-               
+            <div className="flex items-center justify-center mb-4">
+               <CategoryCard/>
             </div>
             <div>
 
