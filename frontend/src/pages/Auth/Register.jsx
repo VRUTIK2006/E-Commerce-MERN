@@ -46,7 +46,11 @@ export default function Register() {
 
             console.log(response.data);
 
-            navigate("/login");
+            navigate("/verify-otp",{
+                state:{
+                    email:formData.email
+                }
+            });
 
         } catch (error) {
 
