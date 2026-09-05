@@ -36,7 +36,7 @@ export default function OrderSuccess() {
                 <div className="flex gap-3 justify-center">
 
                     <Link
-                        to="/orders"
+                        to="/my-orders"
                         className="bg-green-600 text-white px-5 py-3 rounded-lg"
                     >
                         My Orders

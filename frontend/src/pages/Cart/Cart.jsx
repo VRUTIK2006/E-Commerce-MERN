@@ -17,10 +17,6 @@ export default function Cart() {
         (state) => state.cart.items
     );
 
-    // =========================
-    // LOAD USER'S CART
-    // =========================
-
     useEffect(() => {
 
         const loadCart = async () => {
@@ -44,11 +40,6 @@ export default function Cart() {
         loadCart();
 
     }, [dispatch]);
-
-
-    // =========================
-    // INCREASE QUANTITY
-    // =========================
 
     const handleIncrease = async (productId, currentQuantity) => {
 
@@ -75,14 +66,8 @@ export default function Cart() {
         }
     };
 
-
-    // =========================
-    // DECREASE QUANTITY
-    // =========================
-
     const handleDecrease = async (productId, currentQuantity) => {
 
-        // Don't allow quantity below 1
         if (currentQuantity <= 1) {
             return;
         }
@@ -111,10 +96,6 @@ export default function Cart() {
     };
 
 
-    // =========================
-    // REMOVE PRODUCT
-    // =========================
-
     const handleRemove = async (productId) => {
 
         try {
@@ -140,10 +121,6 @@ export default function Cart() {
     };
 
 
-    // =========================
-    // TOTAL
-    // =========================
-
     const total = cartItems.reduce(
         (sum, item) =>
             sum +
@@ -152,10 +129,6 @@ export default function Cart() {
         0
     );
 
-
-    // =========================
-    // EMPTY CART
-    // =========================
 
     if (cartItems.length === 0) {
 
@@ -187,14 +160,9 @@ export default function Cart() {
         );
     }
 
-
-    // =========================
-    // CART UI
-    // =========================
-
     return (
 
-        <div className="max-w-6xl mx-auto p-6">
+        <div className="min-h-screen max-w-6xl mx-auto p-6">
 
             <h1 className="text-white text-3xl font-bold mb-8">
                 Shopping Cart
@@ -204,9 +172,6 @@ export default function Cart() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
 
-                {/* ================================= */}
-                {/* CART ITEMS */}
-                {/* ================================= */}
 
                 <div className="lg:col-span-2 space-y-4">
 
@@ -218,8 +183,6 @@ export default function Cart() {
                         >
 
 
-                            {/* IMAGE */}
-
                             <img
                                 src={
                                     item.product.images?.[0]?.url
@@ -228,8 +191,6 @@ export default function Cart() {
                                 className="w-24 h-24 object-cover rounded-lg"
                             />
 
-
-                            {/* PRODUCT INFO */}
 
                             <div className="flex-1">
 
@@ -242,9 +203,6 @@ export default function Cart() {
                                 </p>
 
                             </div>
-
-
-                            {/* QUANTITY */}
 
                             <div className="flex items-center gap-3">
 
@@ -281,9 +239,6 @@ export default function Cart() {
 
                             </div>
 
-
-                            {/* ITEM TOTAL */}
-
                             <p className="font-semibold w-24 text-right">
 
                                 Rs.{" "}
@@ -294,8 +249,6 @@ export default function Cart() {
 
                             </p>
 
-
-                            {/* REMOVE */}
 
                             <button
                                 onClick={() =>
@@ -314,10 +267,6 @@ export default function Cart() {
                     ))}
 
 
-                    {/* ================================= */}
-                    {/* CART BUTTONS */}
-                    {/* ================================= */}
-
                     <div className="flex gap-4">
 
                         <button
@@ -335,7 +284,6 @@ export default function Cart() {
 
                                 try {
 
-                                    // Remove every item
                                     for (const item of cartItems) {
 
                                         await removeFromCartAPI(
@@ -367,11 +315,6 @@ export default function Cart() {
                     </div>
 
                 </div>
-
-
-                {/* ================================= */}
-                {/* ORDER SUMMARY */}
-                {/* ================================= */}
 
                 <div className="bg-gray-100 rounded-xl p-6 h-fit">
 

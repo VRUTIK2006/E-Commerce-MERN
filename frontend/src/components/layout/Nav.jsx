@@ -24,6 +24,7 @@ export default function Navbar() {
         (total,item)=>total + item.quantity,0
     );
 
+    
     return (
         <nav className="bg-gray-800 text-white shadow-md px-6 py-4 mb-4">
 

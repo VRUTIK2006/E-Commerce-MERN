@@ -13,6 +13,7 @@ import OrderSuccess from "../pages/Order/OrderSuccess";
 import MyOrders from "../pages/Order/MyOrders";
 import OrderTracking from "../pages/Order/OrderTracking";
 import Footer from "../components/layout/Footer";
+import VerifyOTP from "../pages/Auth/VerifyOTP";
 
 export default function AppRoutes(){
     return(
@@ -29,7 +30,8 @@ export default function AppRoutes(){
             <Route path='/review-order' element={<ReviewOrder/>}/>
             <Route path='/order-success' element={<OrderSuccess/>}/>
             <Route path='/my-orders' element={<MyOrders/>}/>
-            <Route path='/order/:id' element={<OrderTracking/>}/>            
+            <Route path='/order/:id' element={<OrderTracking/>}/>          
+            <Route path='/verify-otp' element={<VerifyOTP/>}/>          
         </Routes>
         <Footer/>
         </>

@@ -55,7 +55,7 @@ export const registerUser = async(req,res)=>{
         attempts:0
       },{
         upsert:true,
-        new:true
+        returnDocument: 'after'
       }
     );
 
