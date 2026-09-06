@@ -1,5 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import api from "../../services/api.js";
+import {setCart} from "../../redux/slices/cartSlice.js"
 import { logout } from "../../redux/slices/authSlice";
 
 export default function Navbar() {
@@ -23,6 +26,24 @@ export default function Navbar() {
     const cartCount = cartItems.reduce(
         (total,item)=>total + item.quantity,0
     );
+
+    useEffect(()=>{
+        const loadCart = async()=>{
+            if(!isAuthenticated){
+                dispatch(setCart([]));
+                return;
+            }
+            try {
+                const response = await api.get("/cart");
+                console.log("NAVBAR CART :",response.data);
+                dispatch(setCart(response.data.cart));
+            } catch (error) {
+                
+                console.error("Failed to load cart : ",error.response?.data||error.message);
+            }
+        };
+        loadCart();
+    },[isAuthenticated,dispatch]);
 
     
     return (
