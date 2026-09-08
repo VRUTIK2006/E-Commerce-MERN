@@ -21,8 +21,8 @@ if (storedToken) {
 }
 
 const initialState = {
-    user: storedUser ? JSON.parse(storedUser) : null,
-    isAuthenticated: !!storedUser,
+    user: isValid && storedUser ? JSON.parse(storedUser) : null,
+    isAuthenticated: isValid && !!storedUser,
 };
 
 const authSlice = createSlice({

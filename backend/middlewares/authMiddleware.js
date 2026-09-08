@@ -9,16 +9,26 @@ export const protect = async(req,res,next)=>{
     }
     if(!token){
         return res.status(401).json({
+            success:false,
             message:"Not authorized, no token"
         });
     }
 
     try {
         const decoded = jwt.verify(token,process.env.JWT_SECRET);
-        req.user = await User.findById(decoded.id).select("-password");
+        const user = await User.findById(decoded.id).select("-password");
+        if(!user){
+            return res.status(401).json({
+                success:false,
+                message:"User no longer exists"
+            });
+        }
+        req.user=user;
         next();
     } catch (error) {
-        return res.status(401).json({message:"Token invalid"});
+        return res.status(401).json({
+            success:false,
+            message:"Token invalid or expired"});
         
     }
 
@@ -29,6 +39,8 @@ export const admin = (req,res,next)=>{
         next();
     }
     else{
-        return res.status(403).send("Access Denaid : Admin Only");
+        return res.status(403).json({
+            success:false,
+            message:"Access Denaid : Admin Only"});            
     }
 }

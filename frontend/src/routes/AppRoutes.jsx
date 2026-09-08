@@ -15,6 +15,16 @@ import OrderTracking from "../pages/Order/OrderTracking";
 import Footer from "../components/layout/Footer";
 import VerifyOTP from "../pages/Auth/VerifyOTP";
 
+import AdminRoutes from "../components/admin/AdminRoutes";
+import AdminLayout from "../components/admin/AdminLayout";
+
+import AdminDashboard from "../pages/Admin/AdminDashboard";
+import AdminProducts from "../pages/Admin/AdminProducts";
+import AdminOrders from "../pages/Admin/AdminOrders";
+import AdminCustomers from "../pages/Admin/AdminCustomers";
+import AdminSettings from "../pages/Admin/AdminSettings";
+
+
 export default function AppRoutes(){
     return(
         <>
@@ -32,9 +42,20 @@ export default function AppRoutes(){
             <Route path='/my-orders' element={<MyOrders/>}/>
             <Route path='/order/:id' element={<OrderTracking/>}/>          
             <Route path='/verify-otp' element={<VerifyOTP/>}/>          
+    
+    
+            <Route element={<AdminRoutes/>}>
+            <Route path="/admin" element={<AdminLayout/>}>
+                <Route index element={<AdminDashboard/>}/>
+                <Route path="products" element={<AdminProducts/>}/>
+                <Route path="orders" element={<AdminOrders/>}/>
+                <Route path="customers" element={<AdminCustomers/>}/>
+                <Route path="settings" element={<AdminSettings/>}/>
+            </Route>
+            </Route>
         </Routes>
         <Footer/>
         </>
         
-    )
+    );
 }
