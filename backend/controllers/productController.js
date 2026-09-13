@@ -67,11 +67,15 @@ export const updateProduct = async(req,res)=>{
         }
         product.name = name || product.name;
         product.description = description || product.description;
-        product.price = price || product.price;
         product.category = category || product.category;
         product.brand = brand || product.brand;
-        product.stock = stock || product.stock;
 
+        if(price !== undefined){
+            product.price = price;
+        }
+        if(stock !== undefined){
+            product.stock = stock;
+        }
         if(req.files && req.files.length > 0){
             for(const img of product.images){
                 await cloudinary.v2.uploader.destroy(img.public_id);
@@ -89,9 +93,13 @@ export const updateProduct = async(req,res)=>{
         res.json({message:"Product updated successfully",product:updatedProduct})
 
     } catch (error) {
-        res.status(500).json({
-            message:"Error updating product",error:error.message
-        })
+        console.error("UPDATE PRODUCT ERROR:", error);
+
+    return res.status(500).json({
+        success: false,
+        message: "Error updating product",
+        error: error.message
+    });
         
     }
 };

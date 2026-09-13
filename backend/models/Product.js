@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
     },
     category:{
         type:String,
-        requird:true
+        required:true
     },
     brand:{
         type:String,
@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
     },
     stock:{
         type:Number,
-        requird:true,
+        required:true,
         min:0,
         default:0
     },

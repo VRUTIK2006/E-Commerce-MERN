@@ -240,7 +240,7 @@ export const getAllOrders = async (req, res) => {
 export const updateOrderStatus = async (req, res) => {
     try {
 
-        const { status } = req.body;
+        const { status,trackingNumber } = req.body;
 
         const allowedStatuses = [
             "PLACED",
@@ -260,7 +260,7 @@ export const updateOrderStatus = async (req, res) => {
 
         const order = await Order.findById(
             req.params.id
-        );
+        ).populate("user", "name email");
 
         if (!order) {
             return res.status(404).json({
@@ -270,8 +270,17 @@ export const updateOrderStatus = async (req, res) => {
 
         order.orderStatus = status;
 
+        if(trackingNumber !== undefined){
+            order.trackingNumber = trackingNumber.trim() || null;
+        }
+
         if (status === "DELIVERED") {
             order.deliveredAt = new Date();
+
+            if(order.paymentMethod === "COD"){
+                order.paymentStatus = "PAID";
+                order.paidAt = new Date();
+            }
         }
 
         await order.save();

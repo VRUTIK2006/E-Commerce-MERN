@@ -48,3 +48,73 @@ export const getDashboardStatus = async (req,res)=>{
         });
     }
 };
+
+export const getAllCustomers = async(req,res)=>{
+    try {
+        const {search=""} = req.query;
+        const query = {
+            role:"user",
+            $or:[
+                {name:{$regex:search,$options:"i"}},
+                {email:{$regex:search,$options:"i"}}
+            ]
+        };
+
+        const customers = await User.find(query)
+        .select("-password")
+        .sort({createdAt:-1});
+
+        return res.json({
+            success:true,
+            customers
+        });
+    } catch (error) {
+        console.error("Get Customer Error :",error);
+
+        return res.status(500).json({
+            success:false,
+            message:"Error fetching customers",
+            error:error.message
+        });
+    }
+};
+
+export const getCustomerDetails = async(req,res)=>{
+    try {
+        const customer = await User.findOne({
+            _id:req.params.id,
+            role:"user"  
+        }).select("-password");
+
+        console.log("Customer ..",customer)
+
+        if(!customer){
+            return res.status(400).json({
+                success:false,
+                message:"Customer not found"
+            });
+        }
+
+        const orders = await Order.find({
+            user: customer._id   
+        }).sort({createdAt:-1});
+
+        console.log("Orders...:",orders);
+
+        const totalOrders = orders.length;
+
+        const totalSpent = orders.filter(order=>order.orderStatus !="CANCELLED").reduce((total,order)=>total+order.totalAmount,0);
+        return res.json({
+            success:true,
+            customer,orders,totalOrders,totalSpent
+        });
+    } catch (error) {
+        console.error("Get Customer Details Error:",error);
+
+        return res.status(500).json({
+            success:false,
+            message:"Error fetching customer details",
+            error:error.message
+        });
+    }
+};

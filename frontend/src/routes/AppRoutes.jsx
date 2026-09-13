@@ -23,7 +23,10 @@ import AdminProducts from "../pages/Admin/AdminProducts";
 import AdminOrders from "../pages/Admin/AdminOrders";
 import AdminCustomers from "../pages/Admin/AdminCustomers";
 import AdminSettings from "../pages/Admin/AdminSettings";
-
+import AddProduct from "../pages/Admin/AddProduct";
+import EditProduct from "../pages/Admin/EditProduct";
+import AdminOrderDetails from "../pages/Admin/AdminOrderDetails";
+import AdminCustomerDetails from "../pages/Admin/AdminCustomerDetails";
 
 export default function AppRoutes(){
     return(
@@ -48,8 +51,12 @@ export default function AppRoutes(){
             <Route path="/admin" element={<AdminLayout/>}>
                 <Route index element={<AdminDashboard/>}/>
                 <Route path="products" element={<AdminProducts/>}/>
+                <Route path="products/add" element={<AddProduct/>}/>
+                <Route path="products/edit/:id" element={<EditProduct/>}/>
+                <Route path="orders/:id" element={<AdminOrderDetails/>}/>
                 <Route path="orders" element={<AdminOrders/>}/>
                 <Route path="customers" element={<AdminCustomers/>}/>
+                <Route path="customers/:id" element={<AdminCustomerDetails/>}/>
                 <Route path="settings" element={<AdminSettings/>}/>
             </Route>
             </Route>
