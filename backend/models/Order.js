@@ -79,7 +79,7 @@ const orderSchmea = new mongoose.Schema({
         type:Number,
         required:true 
     },
-    shippigFee:{
+    shippingFee:{
         type:Number,
         default:0
     },

@@ -1,6 +1,7 @@
 import Payment from "../models/Payment.js";
 import Order from "../models/Order.js";
 import crypto from "crypto";
+import razorpay from "../config/razorpay.js";
 
 export const createPayment = async(req,res)=>{
     try {
@@ -29,7 +30,7 @@ export const createPayment = async(req,res)=>{
         if(order.paymentStatus === "PAID"){
             return res.status(400).json({
                 success:false,
-                messsage:"Order is already paid"
+                message:"Order is already paid"
             });
         }
         if(order.paymentMethod === "COD"){
@@ -52,7 +53,7 @@ export const createPayment = async(req,res)=>{
                 status:"PENDING"
             });
             return res.status(201).json({
-                sucess:true,
+                success:true,
                 message:"COD payment created",
                 payment
             });
@@ -98,24 +99,21 @@ export const createPayment = async(req,res)=>{
                 success:true,
                 message:"Razorpay payment initialized",
                 paymentId:payment._id,
-                razorpayOrderId:razorpayOrder.id
-            });
-
-            return res.status(201).json({
-                success:true,
-                message:"Razorpay payment initailiezed",
-                paymentId:payment._id,
                 razorpayOrderId:razorpayOrder.id,
                 amount:razorpayOrder.amount,
                 currency:razorpayOrder.currency,
                 key:process.env.RAZORPAY_KEY_ID
             });
         }
-        return res.status(400).josn({
-            sucess:false,
+        return res.status(400).json({
+            success:false,
             message:"Unsupported payment method"
         });
     } catch (error) {
+        console.error("🔥 CREATE PAYMENT ERROR:", error);
+    console.error("🔥 MESSAGE:", error.message);
+    console.error("🔥 STACK:", error.stack);
+
         console.log("Create Payment Erro:"),
         error
 
