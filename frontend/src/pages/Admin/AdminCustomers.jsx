@@ -51,7 +51,7 @@ export default function AdminCustomers() {
 
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-gray-800">
+                <h1 className="text-2xl font-bold text-gray-100">
                     Customers
                 </h1>
 
@@ -86,7 +86,7 @@ export default function AdminCustomers() {
                     <div className="flex items-center gap-2">
                         <Users size={20} className="text-gray-600" />
 
-                        <h2 className="font-semibold text-gray-800">
+                        <h2 className="font-semibold text-gray-400">
                             All Customers
                         </h2>
                     </div>

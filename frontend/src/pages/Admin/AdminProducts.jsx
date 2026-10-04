@@ -84,7 +84,7 @@ export default function AdminProducts() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">
+                    <h1 className="text-2xl font-bold text-gray-100">
                         Products
                     </h1>
 

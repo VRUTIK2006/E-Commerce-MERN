@@ -30,11 +30,11 @@ export default function Shop(){
         return <h2>{error}</h2>
     }
     return(
-        <div className="p-6 h-screen">
+        <div className="p-6 min-h-screen">
             <h1 className="text-white text-3xl font-bold mb-6">
                 All Products
             </h1>
-            <div className="flex flex-wrap p-6 gap-5">
+            <div className="grid grid-cols-5 p-6 gap-5">
                 {products.map((product)=>(
                     <Card
                     key={product._id}

@@ -18,10 +18,7 @@ export default function Home(){
             <div className="flex items-center justify-center mb-4">
                <CategoryCard/>
             </div>
-            <div>
-
-            </div>
-          
+            
         </div>
     </>)
 }

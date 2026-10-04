@@ -11,10 +11,12 @@ export default function AddProduct() {
         name: "",
         description: "",
         price: "",
-        category: "",
+        category: "Generic",
         brand: "",
         stock: ""
     });
+
+    const categories = ["Generic","Electronics & Gadgets","Fashion","Books","Home & Kitchen","Sports & Fitness"];
 
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -120,7 +122,7 @@ export default function AddProduct() {
                 </button>
 
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">
+                    <h1 className="text-2xl font-bold text-gray-100">
                         Add Product
                     </h1>
 
@@ -175,15 +177,18 @@ export default function AddProduct() {
                             Category
                         </label>
 
-                        <input
-                            type="text"
-                            name="category"
-                            value={formData.category}
-                            onChange={handleChange}
-                            required
-                            placeholder="e.g. Electronics"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-black"
-                        />
+                        <select name="category" id="category"
+                        value={formData.category}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-black"
+                        onChange={(e)=>setFormData(prev=>({...prev,category:e.target.value}))}>
+
+                                {
+                                    categories.map(cat=>(
+                                        <option key={cat} value={cat}>{cat}</option>
+                                    ))
+                                }
+
+                        </select>
 
                     </div>
 

@@ -47,7 +47,7 @@ export default function Navbar() {
 
     
     return (
-        <nav className="bg-gray-800 text-white shadow-md px-6 py-4 mb-4">
+        <nav className="bg-gray-800 text-white shadow-md px-6 py-4">
 
             <div className="max-w-7xl mx-auto flex items-center justify-between">
 
@@ -55,9 +55,9 @@ export default function Navbar() {
 
                 <Link
                     to="/"
-                    className="text-2xl font-bold text-gray-300"
+                    className="text-2xl font-bold text-white"
                 >
-                    MyShop
+                    BuyOn
                 </Link>
 
 

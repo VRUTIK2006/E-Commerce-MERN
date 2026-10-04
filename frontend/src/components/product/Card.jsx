@@ -38,14 +38,14 @@ export default function Card({ product }) {
                 <img
                     src={product.images?.[0]?.url}
                     alt={product.name}
-                    className="w-full h-40 object-cover rounded-xl mb-2"
+                    className="w-full h-44 object-cover rounded-xl mb-2"
                 />
 
                 <h1 className="font-bold text-white">
                     {product.name}
                 </h1>
 
-                <p className="mb-2 text-gray-400">
+                <p className="mb-2 text-gray-400 min-h-12 line-clamp-2">
                     {product.description}
                 </p>
 

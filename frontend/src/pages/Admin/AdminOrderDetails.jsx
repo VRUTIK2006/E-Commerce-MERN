@@ -90,13 +90,13 @@ export default function AdminOrderDetails() {
 
                 <button
                     onClick={() => navigate("/admin/orders")}
-                    className="p-2 rounded-lg hover:bg-gray-200"
+                    className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200"
                 >
                     <ArrowLeft size={20} />
                 </button>
 
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">
+                    <h1 className="text-2xl font-bold text-gray-100">
                         Order Details
                     </h1>
 
