@@ -1,14 +1,27 @@
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { setCart } from "../../redux/slices/cartSlice";
 import { addToCartAPI } from "../../services/cartService";
 import { useNavigate } from "react-router-dom";
+import {toast} from "sonner";
 
 export default function Card({ product }) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const user = useSelector((state)=>state.auth.user);
+
     const handleAddToCart = async () => {
+        
+        if(!user){
+                toast.info("Please login to add items to your cart",{
+                    action:{
+                        label:"Login",
+                        onClick:()=>navigate("/login"),
+                    },
+                });
+                return;
+            }
 
         try {
 
@@ -16,29 +29,34 @@ export default function Card({ product }) {
 
             // Update Redux with the cart returned by backend
             dispatch(setCart(response.cart));
+             toast.success("Product added to cart");
 
             // Go to cart
             navigate("/cart");
 
         } catch (error) {
+            if(error.response?.status===401){
+                toast.info("Your session has expired. Please login again.",{
+                    action:{
+                        label:"Login",
+                        onClick:()=>navigate("/login"),
+                    },
+                });
+                return;
+            }
+            toast.error("Failed to add product to cart");
 
-            console.error("Add to cart error:", error);
-
-            alert(
-                error.response?.data?.message ||
-                "Failed to add product to cart"
-            );
         }
     };
 
     return (
         <>
-            <div className="bg-gray-700 p-2 w-64 h-auto rounded-2xl flex flex-col  hover:shadow-lg hover:shadow-white hover:-translate-y-2 transition duration-300">
+            <div className="bg-gray-700 p-2 w-54 h-auto rounded-2xl flex flex-col  hover:shadow-lg hover:shadow-white hover:-translate-y-2 transition duration-300">
 
                 <img
                     src={product.images?.[0]?.url}
                     alt={product.name}
-                    className="w-full h-44 object-cover rounded-xl mb-2"
+                    className="w-full h-30 object-cover rounded-xl mb-2"
                 />
 
                 <h1 className="font-bold text-white">

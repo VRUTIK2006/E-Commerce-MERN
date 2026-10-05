@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import {
     setPaymentMethod as setPaymentMethodAction
@@ -33,8 +34,7 @@ export default function Payment() {
     const handleContinue = () => {
 
         if (!paymentMethod) {
-            alert("Please select a payment method");
-            return;
+           toast.error("Please Select the Payment Method");
         }
 
         dispatch(

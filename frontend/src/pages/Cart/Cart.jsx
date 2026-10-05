@@ -238,8 +238,8 @@ export default function Cart() {
                                 </button>
 
                             </div>
-
-                            <p className="font-semibold w-24 text-right">
+                            <div className="grid grid-cols-1 sm:grid-cols-2">
+                                <p className="font-semibold w-24 text-right">
 
                                 Rs.{" "}
                                 {
@@ -261,6 +261,8 @@ export default function Cart() {
                                 Remove
                             </button>
 
+                            </div>
+                            
 
                         </div>
 

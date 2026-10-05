@@ -34,7 +34,7 @@ export default function Shop(){
             <h1 className="text-white text-3xl font-bold mb-6">
                 All Products
             </h1>
-            <div className="grid grid-cols-5 p-6 gap-5">
+            <div className="flex flex-wrap justify-center gap-10">
                 {products.map((product)=>(
                     <Card
                     key={product._id}

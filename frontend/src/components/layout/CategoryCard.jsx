@@ -33,7 +33,7 @@ export default function CategoryCard() {
   ];
 
   return (
-    <div className="flex gap-10">
+    <div className="flex flex-wrap justify-center gap-10">
       {categories.map((cat, i) => (
         <div
           key={i}
