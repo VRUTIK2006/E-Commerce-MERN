@@ -58,14 +58,6 @@ export default function OrderSummary({ cartItems }) {
                 <span>Total</span>
                 <span>₹{total}</span>
             </div>
-
-            <button
-                onClick={()=>navigate("/payment")}
-                className="w-full bg-green-600 text-white py-3 rounded-lg mt-6 font-semibold"
-            >
-                Proceed to Payment
-            </button>
-
         </div>
     );
 }

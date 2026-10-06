@@ -204,7 +204,8 @@ export default function Cart() {
 
                             </div>
 
-                            <div className="flex items-center gap-3">
+                            <div className="flex flex-col sm:flex-row gap-2">
+                                <div className="flex items-center gap-3">
 
                                 <button
                                     onClick={() =>
@@ -238,8 +239,8 @@ export default function Cart() {
                                 </button>
 
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2">
-                                <p className="font-semibold w-24 text-right">
+                            <div className="flex flex-col items-center sm:flex-row gap-2">
+                                <p className="font-semibold w-24 text-center">
 
                                 Rs.{" "}
                                 {
@@ -262,6 +263,8 @@ export default function Cart() {
                             </button>
 
                             </div>
+                            </div>
+                            
                             
 
                         </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingAddress } from "../../redux/slices/checkoutSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function AddressForm() {
 
@@ -23,34 +24,59 @@ export default function AddressForm() {
         });
     };
 
+    const validateForm = ()=>{
+        const {fullName,phone,address:streetAddress,city,state,postalCode} = address;
+
+        const cleanName = fullName.trim();
+        const cleanPhone = phone.trim();
+        const cleanStreet = streetAddress.trim();
+        const cleanCity = city.trim();
+        const cleanState = state.trim();
+        const cleanPostal = postalCode.trim();
+
+        if(!cleanName || !cleanPhone || !cleanStreet || !cleanCity || !cleanState || !cleanPostal){
+            return "Please fill out all address fields.";
+        }
+        if(cleanName.length < 3){
+            return "Please Enter a Valid Full Name (atleast 3 char.)";
+        }
+        const PhoneRegex = /^[6-9]\d{9}$/;
+        if(!PhoneRegex.test(cleanPhone)){
+            return "Please enter valid 10-digit mobile number";
+        }
+        if(cleanStreet.length < 10){
+            return "Please enter a complete street address (house/flat no, street, area).";
+    
+        }
+
+        const pinRegex = /^\d{6}$/;
+        if(!pinRegex.test(cleanPostal)){
+            return "Please Enter a valid 6-digit postal/PIN code.";
+        }
+
+        return null;
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
 
         setError("");
 
-        const {
-            fullName,
-            phone,
-            address: streetAddress,
-            city,
-            state,
-            postalCode,
-        } = address;
-
-        if (
-            !fullName ||
-            !phone ||
-            !streetAddress ||
-            !city ||
-            !state ||
-            !postalCode
-        ) {
-            setError("Please fill all address fields");
+        const validationError = validateForm();
+        if(validationError){
+            toast.error(validationError);
             return;
         }
 
-        dispatch(saveShippingAddress(address));
+        const sanitizedAddress = {
+            fullName: address.fullName.trim(),
+            phone: address.phone.trim(),
+            address: address.address.trim(),
+            city: address.city.trim(),
+            state: address.state.trim(),
+            postalCode: address.postalCode.trim(),
+        };
 
+        dispatch(saveShippingAddress(sanitizedAddress));
         navigate("/payment");
     };
 
@@ -60,12 +86,6 @@ export default function AddressForm() {
             <h2 className="text-xl font-bold mb-6">
                 Delivery Address
             </h2>
-
-            {error && (
-                <div className="bg-red-100 text-red-600 p-3 rounded-lg mb-5">
-                    {error}
-                </div>
-            )}
 
             <form onSubmit={handleSubmit}>
 
