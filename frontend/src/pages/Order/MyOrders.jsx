@@ -154,7 +154,7 @@ export default function MyOrders() {
 
                     <div
                         key={order._id}
-                        className="bg-gray-300 rounded-xl shadow-md p-6"
+                        className="bg-gray-100 rounded-xl shadow-md p-6"
                     >
 
                         {/* TOP SECTION */}
@@ -206,7 +206,7 @@ export default function MyOrders() {
 
                         {/* PRODUCTS */}
 
-                        <div className="border-t border-b py-4 space-y-4">
+                        <div className="border-gray-300 border-t border-b py-4 space-y-4">
 
                             {order.items.map((item, index) => (
 

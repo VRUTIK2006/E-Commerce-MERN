@@ -81,7 +81,7 @@ export default function AdminProducts() {
 
             {/* Header */}
 
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
 
                 <div>
                     <h1 className="text-2xl font-bold text-gray-100">
@@ -96,7 +96,7 @@ export default function AdminProducts() {
 
                 <button
                     onClick={() => navigate("/admin/products/add")}
-                    className="flex items-center justify-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800"
+                    className="flex items-center justify-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 w-full sm:w-auto"
                 >
                     <Plus size={18} />
                     Add Product
@@ -146,12 +146,58 @@ export default function AdminProducts() {
                     </div>
 
                 ) : (
+                    <>
+                    <div className="grid grid-cols-1 gap-4 p-4 lg:hidden">
+                            {filteredProducts.map((product) => (
+                                <div key={product._id} className="border border-gray-200 p-4 rounded-lg flex flex-col gap-3">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0">
+                                            {product.images?.[0]?.url ? (
+                                                <img src={product.images[0].url} alt={product.name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">No Image</div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <p className="font-medium text-gray-800">{product.name}</p>
+                                            <p className="text-sm text-gray-500">{product.brand} • {product.category}</p>
+                                        </div>
+                                    </div>
 
-                    <div className="overflow-x-auto">
+                                    <div className="flex items-center justify-between text-sm pt-2 border-t border-gray-100">
+                                        <div>
+                                            <span className="text-xs text-gray-400 block">Price</span>
+                                            <span className="font-medium">₹{product.price}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-xs text-gray-400 block">Stock</span>
+                                            <span>{product.stock}</span>
+                                        </div>
+                                        <div>
+                                            {product.stock > 0 ? (
+                                                <span className="px-3 py-1 rounded-full text-xs font-medium text-green-700">In Stock</span>
+                                            ) : (
+                                                <span className="px-3 py-1 rounded-full text-xs font-medium  text-red-700">Out of Stock</span>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-end gap-2 pt-2 border-t border-gray-100">
+                                        <button onClick={() => navigate(`/admin/products/edit/${product._id}`)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600">
+                                            <Pencil size={18} />
+                                        </button>
+                                        <button onClick={() => handleDelete(product._id)} className="p-2 rounded-lg hover:bg-red-50 text-red-600">
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                     <div className=" hidden lg:block overflow-x-auto">
 
                         <table className="w-full">
 
-                            <thead className="bg-gray-50 border-b">
+                            <thead className="bg-gray-100 ">
 
                                 <tr>
 
@@ -190,7 +236,7 @@ export default function AdminProducts() {
 
                                     <tr
                                         key={product._id}
-                                        className="hover:bg-gray-50"
+                                        className="hover:bg-gray-50 border-gray-200"
                                     >
 
                                         {/* Product */}
@@ -199,7 +245,7 @@ export default function AdminProducts() {
 
                                             <div className="flex items-center gap-3">
 
-                                                <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                                                <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0">
 
                                                     {product.images?.[0]?.url ? (
 
@@ -264,13 +310,13 @@ export default function AdminProducts() {
 
                                             {product.stock > 0 ? (
 
-                                                <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                                <span className="px-3 py-1 rounded-full text-xs font-medium text-green-700">
                                                     In Stock
                                                 </span>
 
                                             ) : (
 
-                                                <span className="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                                <span className="px-3 py-1 rounded-full text-xs font-medium text-red-700">
                                                     Out of Stock
                                                 </span>
 
@@ -321,6 +367,9 @@ export default function AdminProducts() {
                         </table>
 
                     </div>
+                    </>
+
+                   
 
                 )}
 

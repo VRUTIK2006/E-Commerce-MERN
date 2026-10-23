@@ -119,7 +119,7 @@ export default function AdminOrders() {
             </div>
 
 
-            {/* Orders Table */}
+            {/* Orders Table Container */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
 
                 {loading ? (
@@ -136,178 +136,261 @@ export default function AdminOrders() {
 
                 ) : (
 
-                    <div className="overflow-x-auto">
-
-                        <table className="w-full">
-
-                            <thead className="bg-gray-50 border-b">
-
-                                <tr>
-
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
-                                        Order
-                                    </th>
-
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
-                                        Customer
-                                    </th>
-
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
-                                        Date
-                                    </th>
-
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
-                                        Amount
-                                    </th>
-
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
-                                        Payment
-                                    </th>
-
-                                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
-                                        Status
-                                    </th>
-
-                                    <th className="text-right px-6 py-4 text-sm font-semibold text-gray-600">
-                                        Action
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody className="divide-y">
-
-                                {filteredOrders.map((order) => (
-
-                                    <tr
-                                        key={order._id}
-                                        className="hover:bg-gray-50"
-                                    >
-
-                                        {/* Order ID */}
-                                        <td className="px-6 py-4">
-
+                    <>
+                        {/* Mobile Stacked Card View (Visible only on screens < lg) */}
+                        <div className="grid grid-cols-1 gap-4 p-4 lg:hidden">
+                            {filteredOrders.map((order) => (
+                                <div
+                                    key={order._id}
+                                    className="border border-gray-200 p-4 rounded-lg flex flex-col gap-3"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div>
                                             <p className="font-medium text-gray-800">
                                                 #{order._id.slice(-8).toUpperCase()}
                                             </p>
-
-                                            <p className="text-xs text-gray-400 mt-1">
+                                            <p className="text-xs text-gray-400 mt-0.5">
                                                 {order.items?.length || 0} item
                                                 {order.items?.length !== 1 ? "s" : ""}
                                             </p>
+                                        </div>
 
-                                        </td>
+                                        <span
+                                            className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(
+                                                order.orderStatus
+                                            )}`}
+                                        >
+                                            {order.orderStatus.replaceAll("_", " ")}
+                                        </span>
+                                    </div>
 
+                                    <div className="pt-2 border-t border-gray-100">
+                                        <p className="font-medium text-gray-800">
+                                            {order.user?.name || "Unknown"}
+                                        </p>
+                                        <p className="text-sm text-gray-500">
+                                            {order.user?.email || "-"}
+                                        </p>
+                                    </div>
 
-                                        {/* Customer */}
-                                        <td className="px-6 py-4">
+                                    <div className="flex items-center justify-between text-sm pt-2 border-t border-gray-100">
+                                        <div>
+                                            <span className="text-xs text-gray-400 block">Date</span>
+                                            <span className="text-gray-600">
+                                                {new Date(order.createdAt).toLocaleDateString("en-IN", {
+                                                    day: "2-digit",
+                                                    month: "short",
+                                                    year: "numeric"
+                                                })}
+                                            </span>
+                                        </div>
 
-                                            <p className="font-medium text-gray-800">
-                                                {order.user?.name || "Unknown"}
-                                            </p>
+                                        <div>
+                                            <span className="text-xs text-gray-400 block">Amount</span>
+                                            <span className="font-semibold text-gray-800">
+                                                ₹{Number(order.totalAmount || 0).toLocaleString("en-IN")}
+                                            </span>
+                                        </div>
 
-                                            <p className="text-sm text-gray-500">
-                                                {order.user?.email || "-"}
-                                            </p>
-
-                                        </td>
-
-
-                                        {/* Date */}
-                                        <td className="px-6 py-4 text-gray-600">
-
-                                            {new Date(
-                                                order.createdAt
-                                            ).toLocaleDateString("en-IN", {
-                                                day: "2-digit",
-                                                month: "short",
-                                                year: "numeric"
-                                            })}
-
-                                        </td>
-
-
-                                        {/* Amount */}
-                                        <td className="px-6 py-4 font-semibold text-gray-800">
-
-                                            ₹{Number(
-                                                order.totalAmount || 0
-                                            ).toLocaleString("en-IN")}
-
-                                        </td>
-
-
-                                        {/* Payment */}
-                                        <td className="px-6 py-4">
-
-                                            <div>
-
-                                                <p className="text-sm font-medium text-gray-700">
-                                                    {order.paymentMethod}
-                                                </p>
-
-                                                <span
-                                                    className={`inline-block mt-1 px-2.5 py-1 rounded-full text-xs font-medium ${getPaymentStyle(
-                                                        order.paymentStatus
-                                                    )}`}
-                                                >
-                                                    {order.paymentStatus}
-                                                </span>
-
-                                            </div>
-
-                                        </td>
-
-
-                                        {/* Order Status */}
-                                        <td className="px-6 py-4">
-
+                                        <div>
+                                            <span className="text-xs text-gray-400 block">Payment</span>
                                             <span
-                                                className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(
-                                                    order.orderStatus
+                                                className={`inline-block mt-0.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${getPaymentStyle(
+                                                    order.paymentStatus
                                                 )}`}
                                             >
-                                                {order.orderStatus.replaceAll(
-                                                    "_",
-                                                    " "
-                                                )}
+                                                {order.paymentStatus}
                                             </span>
+                                        </div>
+                                    </div>
 
-                                        </td>
+                                    <div className="flex justify-end pt-2 border-t border-gray-100">
+                                        <button
+                                            onClick={() => navigate(`/admin/orders/${order._id}`)}
+                                            className="p-2 rounded-lg hover:bg-gray-100 text-gray-600"
+                                            title="View Order"
+                                        >
+                                            <Eye size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
+                        {/* Desktop View Table (Visible on lg screens and up) */}
+                        <div className="hidden lg:block overflow-x-auto">
 
-                                        {/* Action */}
-                                        <td className="px-6 py-4">
+                            <table className="w-full">
 
-                                            <div className="flex justify-end">
+                                <thead className="bg-gray-100">
 
-                                                <button
-                                                    onClick={() =>
-                                                        navigate(
-                                                            `/admin/orders/${order._id}`
-                                                        )
-                                                    }
-                                                    className="p-2 rounded-lg hover:bg-gray-100 text-gray-600"
-                                                    title="View Order"
-                                                >
-                                                    <Eye size={18} />
-                                                </button>
+                                    <tr>
 
-                                            </div>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                                            Order
+                                        </th>
 
-                                        </td>
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                                            Customer
+                                        </th>
+
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                                            Date
+                                        </th>
+
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                                            Amount
+                                        </th>
+
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                                            Payment
+                                        </th>
+
+                                        <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                                            Status
+                                        </th>
+
+                                        <th className="text-right px-6 py-4 text-sm font-semibold text-gray-600">
+                                            Action
+                                        </th>
 
                                     </tr>
 
-                                ))}
+                                </thead>
 
-                            </tbody>
 
-                        </table>
+                                <tbody className="divide-y">
 
-                    </div>
+                                    {filteredOrders.map((order) => (
+
+                                        <tr
+                                            key={order._id}
+                                            className="hover:bg-gray-50 border-gray-200"
+                                        >
+
+                                            {/* Order ID */}
+                                            <td className="px-6 py-4">
+
+                                                <p className="font-medium text-gray-800">
+                                                    #{order._id.slice(-8).toUpperCase()}
+                                                </p>
+
+                                                <p className="text-xs text-gray-400 mt-1">
+                                                    {order.items?.length || 0} item
+                                                    {order.items?.length !== 1 ? "s" : ""}
+                                                </p>
+
+                                            </td>
+
+
+                                            {/* Customer */}
+                                            <td className="px-6 py-4">
+
+                                                <p className="font-medium text-gray-800">
+                                                    {order.user?.name || "Unknown"}
+                                                </p>
+
+                                                <p className="text-sm text-gray-500">
+                                                    {order.user?.email || "-"}
+                                                </p>
+
+                                            </td>
+
+
+                                            {/* Date */}
+                                            <td className="px-6 py-4 text-gray-600">
+
+                                                {new Date(
+                                                    order.createdAt
+                                                ).toLocaleDateString("en-IN", {
+                                                    day: "2-digit",
+                                                    month: "short",
+                                                    year: "numeric"
+                                                })}
+
+                                            </td>
+
+
+                                            {/* Amount */}
+                                            <td className="px-6 py-4 font-semibold text-gray-800">
+
+                                                ₹{Number(
+                                                    order.totalAmount || 0
+                                                ).toLocaleString("en-IN")}
+
+                                            </td>
+
+
+                                            {/* Payment */}
+                                            <td className="px-6 py-4">
+
+                                                <div>
+
+                                                    <p className="text-sm font-medium text-gray-700">
+                                                        {order.paymentMethod}
+                                                    </p>
+
+                                                    <span
+                                                        className={`inline-block mt-1 px-2.5 py-1 rounded-full text-xs font-medium ${getPaymentStyle(
+                                                            order.paymentStatus
+                                                        )}`}
+                                                    >
+                                                        {order.paymentStatus}
+                                                    </span>
+
+                                                </div>
+
+                                            </td>
+
+
+                                            {/* Order Status */}
+                                            <td className="px-6 py-4">
+
+                                                <span
+                                                    className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(
+                                                        order.orderStatus
+                                                    )}`}
+                                                >
+                                                    {order.orderStatus.replaceAll(
+                                                        "_",
+                                                        " "
+                                                    )}
+                                                </span>
+
+                                            </td>
+
+
+                                            {/* Action */}
+                                            <td className="px-6 py-4">
+
+                                                <div className="flex justify-end">
+
+                                                    <button
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/admin/orders/${order._id}`
+                                                            )
+                                                        }
+                                                        className="p-2 rounded-lg hover:bg-gray-100 text-gray-600"
+                                                        title="View Order"
+                                                    >
+                                                        <Eye size={18} />
+                                                    </button>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    ))}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </>
 
                 )}
 

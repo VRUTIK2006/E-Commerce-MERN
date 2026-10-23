@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Search, Users, Mail, Calendar, Eye } from "lucide-react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api.js";
 
 export default function AdminCustomers() {
@@ -8,6 +8,7 @@ export default function AdminCustomers() {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
     const fetchCustomers = async (searchValue = "") => {
         try {
             setLoading(true);
@@ -78,7 +79,7 @@ export default function AdminCustomers() {
                 </div>
             </div>
 
-            {/* Customers Table */}
+            {/* Customers Section */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
 
                 {/* Table Header */}
@@ -112,82 +113,31 @@ export default function AdminCustomers() {
                         </p>
                     </div>
                 ) : (
-                    <div className="overflow-x-auto">
+                    <>
+                        {/* Mobile Stacked Card View (Visible only on small/medium screens < lg) */}
+                        <div className="grid grid-cols-1 gap-4 p-4 lg:hidden">
+                            {customers.map((customer) => (
+                                <div
+                                    key={customer._id}
+                                    className="border border-gray-200 p-4 rounded-lg flex flex-col gap-3"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-semibold shrink-0">
+                                            {customer.name
+                                                ?.charAt(0)
+                                                .toUpperCase()}
+                                        </div>
 
-                        <table className="w-full">
+                                        <div className="min-w-0 flex-1">
+                                            <p className="font-medium text-gray-800 truncate">
+                                                {customer.name}
+                                            </p>
+                                            <p className="text-xs text-gray-400">
+                                                ID: {customer._id.slice(-6)}
+                                            </p>
+                                        </div>
 
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
-                                        Customer
-                                    </th>
-
-                                    <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
-                                        Email
-                                    </th>
-
-                                    <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
-                                        Verification
-                                    </th>
-
-                                    <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
-                                        Joined
-                                    </th>
-                                    <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody className="divide-y divide-gray-100">
-
-                                {customers.map((customer) => (
-                                    <tr
-                                        key={customer._id}
-                                        className="hover:bg-gray-50"
-                                    >
-
-                                        {/* Customer */}
-                                        <td className="px-6 py-4">
-
-                                            <div className="flex items-center gap-3">
-
-                                                <div className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-semibold">
-                                                    {customer.name
-                                                        ?.charAt(0)
-                                                        .toUpperCase()}
-                                                </div>
-
-                                                <div>
-                                                    <p className="font-medium text-gray-800">
-                                                        {customer.name}
-                                                    </p>
-
-                                                    <p className="text-xs text-gray-400">
-                                                        ID: {customer._id.slice(-6)}
-                                                    </p>
-                                                </div>
-
-                                            </div>
-
-                                        </td>
-
-                                        {/* Email */}
-                                        <td className="px-6 py-4">
-
-                                            <div className="flex items-center gap-2 text-gray-600">
-                                                <Mail size={16} />
-
-                                                <span>
-                                                    {customer.email}
-                                                </span>
-                                            </div>
-
-                                        </td>
-
-                                        {/* Verification */}
-                                        <td className="px-6 py-4">
-
+                                        <div>
                                             {customer.isVerified ? (
                                                 <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
                                                     Verified
@@ -197,40 +147,137 @@ export default function AdminCustomers() {
                                                     Not Verified
                                                 </span>
                                             )}
+                                        </div>
+                                    </div>
 
-                                        </td>
+                                    <div className="flex items-center justify-between text-sm pt-2 border-t border-gray-100 text-gray-600">
+                                        <div className="flex items-center gap-2 truncate">
+                                            <Mail size={16} className="shrink-0" />
+                                            <span className="truncate">{customer.email}</span>
+                                        </div>
+                                    </div>
 
-                                        {/* Joined */}
-                                        <td className="px-6 py-4">
+                                    <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-sm">
+                                        <div className="flex items-center gap-2 text-gray-600">
+                                            <Calendar size={16} />
+                                            <span>{formatDate(customer.createdAt)}</span>
+                                        </div>
 
-                                            <div className="flex items-center gap-2 text-gray-600">
-                                                <Calendar size={16} />
+                                        <button
+                                            onClick={() => navigate(`/admin/customers/${customer._id}`)}
+                                            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
+                                        >
+                                            <Eye size={16} />
+                                            View
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
-                                                <span>
-                                                    {formatDate(customer.createdAt)}
-                                                </span>
-                                            </div>
+                        {/* Desktop Data Table (Visible on lg screens and up) */}
+                        <div className="hidden lg:block overflow-x-auto">
+                            <table className="w-full">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
+                                            Customer
+                                        </th>
 
-                                        </td>
-                                        <td className="px-6 py-2">
-                                            <button
-                                            onClick={()=>navigate(`/admin/customers/${customer._id}`)}
-                                            className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg">
-                                                <Eye size={16}/>
-                                                View
+                                        <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
+                                            Email
+                                        </th>
 
-                                            </button>
+                                        <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
+                                            Verification
+                                        </th>
 
-                                        </td>
-
+                                        <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
+                                            Joined
+                                        </th>
+                                        <th className="text-left px-6 py-3 text-sm font-semibold text-gray-600">
+                                            Action
+                                        </th>
                                     </tr>
-                                ))}
+                                </thead>
 
-                            </tbody>
+                                <tbody className="divide-y divide-gray-100">
+                                    {customers.map((customer) => (
+                                        <tr
+                                            key={customer._id}
+                                            className="hover:bg-gray-50"
+                                        >
+                                            {/* Customer */}
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-semibold">
+                                                        {customer.name
+                                                            ?.charAt(0)
+                                                            .toUpperCase()}
+                                                    </div>
 
-                        </table>
+                                                    <div>
+                                                        <p className="font-medium text-gray-800">
+                                                            {customer.name}
+                                                        </p>
 
-                    </div>
+                                                        <p className="text-xs text-gray-400">
+                                                            ID: {customer._id.slice(-6)}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            {/* Email */}
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-2 text-gray-600">
+                                                    <Mail size={16} />
+
+                                                    <span>
+                                                        {customer.email}
+                                                    </span>
+                                                </div>
+                                            </td>
+
+                                            {/* Verification */}
+                                            <td className="px-6 py-4">
+                                                {customer.isVerified ? (
+                                                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                                        Verified
+                                                    </span>
+                                                ) : (
+                                                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+                                                        Not Verified
+                                                    </span>
+                                                )}
+                                            </td>
+
+                                            {/* Joined */}
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-2 text-gray-600">
+                                                    <Calendar size={16} />
+
+                                                    <span>
+                                                        {formatDate(customer.createdAt)}
+                                                    </span>
+                                                </div>
+                                            </td>
+
+                                            <td className="px-6 py-2">
+                                                <button
+                                                    onClick={() => navigate(`/admin/customers/${customer._id}`)}
+                                                    className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
+                                                >
+                                                    <Eye size={16} />
+                                                    View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
                 )}
 
             </div>
